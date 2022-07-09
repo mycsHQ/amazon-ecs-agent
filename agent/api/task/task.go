@@ -1542,6 +1542,9 @@ func (task *Task) dockerHostConfig(container *apicontainer.Container, dockerCont
 		Resources:    resources,
 	}
 
+	// TODO to condition
+	hostConfig.Isolation = "process"
+
 	if err := task.overrideContainerRuntime(container, hostConfig, cfg); err != nil {
 		return nil, err
 	}
@@ -1645,6 +1648,13 @@ func (task *Task) getDockerResources(container *apicontainer.Container, cfg *con
 		}
 		resources.DeviceRequests = []dockercontainer.DeviceRequest{deviceRequest}
 	}
+
+	resources.Devices = []dockercontainer.DeviceMapping {
+		dockercontainer.DeviceMapping{
+			PathOnHost: "class/5B45201D-F2F2-4F3B-85BB-30FF1F953599",
+		},
+	}
+
 	return resources
 }
 
